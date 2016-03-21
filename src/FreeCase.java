@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * 
@@ -10,8 +11,7 @@ import java.util.ArrayList;
  */
 public class FreeCase extends Case {
 	/** Class Variables **/
-	private static int MAX_GLARKS = 10;
-	
+
 	/** Instances Variables **/
 	private ArrayList<Glark> listeDeGlarks; 
 	private int nb_glarks;
@@ -34,6 +34,8 @@ public class FreeCase extends Case {
 		this.hasBlurf = false;
 	}
 	
+	
+	/** ------------ Objects or Glarks Management -------------- **/
 	/**
 	 * Add Case object 
 	 * set the blurf
@@ -48,16 +50,13 @@ public class FreeCase extends Case {
 	}
 	
 	/**
-	 * Add a new glark on the square
+	 * Welcome a new glark on the square
 	 * @param new_glark
 	 */
-	public void addGlark(Glark new_glark){
-		if(this.nb_glarks <= MAX_GLARKS){
-			this.listeDeGlarks.add(new_glark);
-			this.nb_glarks += 1;
-		}
-		else //TODO: exception to prevent the fact that there is not enough places for the new glark?
-			System.out.println("Trop de Glarks sur cette case");
+	public void welcomeGlark(Glark new_glark){
+		this.listeDeGlarks.add(new_glark);
+		this.nb_glarks += 1;
+		//TODO: exception to prevent the fact that there is not enough places for the new glark?
 	}
 	
 	/**
@@ -72,22 +71,80 @@ public class FreeCase extends Case {
 			System.out.println("Glark non trouve dans la list");
 	}
 	
+	/**
+	 * Print the glarks on the square
+	 * Maybe use a Iterator Pattern
+	 * Maybe use a Composite pattern
+	 */
+	public void printGlarks(){
+		Glark cur_glark;
+		Iterator<Glark> ite = this.listeDeGlarks.iterator();
+		System.out.println(this.nb_glarks+" glarks");
+		while(ite.hasNext()){
+			cur_glark = ite.next();
+			System.out.println(cur_glark);
+		}
+	}
 	
-	/** --------- Access to the neighbors ------------- **/
-	public Case NorthCase(){
+	/**
+	 * Print the objects on the square 
+	 * Now there is just blurf object 
+	 */
+	public void printObjects(){
+		System.out.print("blurf");
+	}
+	
+	
+	/** --------- Access to the neighborhood ------------- **/
+	/**
+	 * Access to the North Neighbor
+	 * @return Case
+	 * @exception ArrayIndexOutOfBoundsException
+	 */
+	public Case NorthCase() throws ArrayIndexOutOfBoundsException {
+		if(this.getPosY() == this.damier.getWidth())
+			throw new ArrayIndexOutOfBoundsException();
 		return this.damier.access(this.getPosX(), this.getPosY()+1);
 	}
 	
-	public Case SouthCase(){
+	/**
+	 * Access to the South Neighbor
+	 * @return Case
+	 * @exception ArrayIndexOutOfBoundsException
+	 */
+	public Case SouthCase() throws ArrayIndexOutOfBoundsException {
+		if(this.getPosY() == 0)
+			throw new ArrayIndexOutOfBoundsException();
 		return this.damier.access(this.getPosX(), this.getPosY()-1);
 	}
 	
-	public Case EastCase(){
+	/**
+	 * Access to the East Neighbor
+	 * @return Case
+	 * @exception ArrayIndexOutOfBoundsException
+	 */
+	public Case EastCase() throws ArrayIndexOutOfBoundsException {
+		if(this.getPosX() == this.damier.getHeight())
+			throw new ArrayIndexOutOfBoundsException();
 		return this.damier.access(this.getPosX()+1, this.getPosY());
 	}
 	
-	public Case WestCase(){
+	/**
+	 * Access to the West Neighbor
+	 * @return Case
+	 * @exception ArrayIndexOutOfBoundsException
+	 */
+	public Case WestCase() throws ArrayIndexOutOfBoundsException {
+		if(this.getPosX() == 0)
+			throw new ArrayIndexOutOfBoundsException();
 		return this.damier.access(this.getPosX()-1, this.getPosY());
+	}
+	
+	
+	public String toString(){
+		if (this.hasBlurf())
+			return "B";
+		return " ";
 	}
 	/*public void addCaseObject(){
 		hasBlurf = true;

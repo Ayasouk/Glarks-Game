@@ -15,7 +15,6 @@ abstract public class Case {
 	private int posX;
 	private int posY;
 	
-	
 	/**
 	 * Constructor of the Square
 	 * @param x index on the X axis
@@ -25,6 +24,7 @@ abstract public class Case {
 		this.posX = new Integer(x);
 		this.posY = new Integer(y);
 	}
+	
 	
 	/**
 	 * Predicate to ask if the square is a fence or not
@@ -50,4 +50,17 @@ abstract public class Case {
 		return this.posY;
 	}
 	
+	public void welcomeGlark(Glark glark){
+		
+	}
+	
+	public String getPosition(){
+		return "("+posX+","+posY+")";
+	}
+	
+	public String toString(){
+		if (this.isFence())
+			return "#";
+		return " ";
+	}
 }
